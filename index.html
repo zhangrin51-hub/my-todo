@@ -307,7 +307,7 @@
           <p id="bjd-pending-count" class="text-xs text-slate-400 mt-1">0 件待购</p>
         </div>
         <div class="glass-card border border-emerald-100 rounded-2xl p-4 shadow-sm">
-          <p class="text-xs font-medium text-slate-500">已购入金额</p>
+          <p class="text-xs font-medium text-slate-500">已购入实际花费</p>
           <p id="bjd-bought-price" class="text-2xl font-bold text-emerald-600 mt-1">¥0.00</p>
           <p id="bjd-bought-count" class="text-xs text-slate-400 mt-1">0 件已入</p>
         </div>
@@ -318,7 +318,7 @@
         <form id="bjd-form" class="space-y-3">
           <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
             <input id="bjd-name" type="text" required maxlength="80" placeholder="部件名称，例如：4分白肌素体 / 14mm 玻璃眼珠"
-              class="sm:col-span-5 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+              class="sm:col-span-4 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
             <select id="bjd-type" class="sm:col-span-2 px-3 py-2.5 rounded-xl border border-teal-200 bg-white text-sm text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
               <option value="娃头">娃头</option>
               <option value="素体">素体</option>
@@ -330,11 +330,13 @@
             </select>
             <div class="sm:col-span-2 relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-teal-700 font-medium">¥</span>
-              <input id="bjd-price" type="number" required min="0" step="0.01" placeholder="价格"
+              <input id="bjd-price" type="number" required min="0" step="0.01" placeholder="预算价格"
                 class="w-full pl-7 pr-3 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
             </div>
+            <input id="bjd-open-time" type="text" maxlength="40" placeholder="开仓/约妆/约毛时间（选填）"
+              class="sm:col-span-2 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
             <input id="bjd-note" type="text" maxlength="40" placeholder="店铺/备注（选填）"
-              class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+              class="sm:col-span-2 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
           </div>
           <div class="flex justify-end">
             <button type="submit"
@@ -365,18 +367,32 @@
 
     <!-- Shows Watchlist View -->
     <main id="view-shows" class="hidden space-y-5">
+      <!-- Nearest Show Countdown Highlight -->
+      <section class="glass-card border border-teal-200 rounded-2xl p-4 sm:p-5 shadow-sm bg-gradient-to-r from-teal-600 to-cyan-600 text-white">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <p class="text-xs font-medium text-teal-100 uppercase tracking-wider">最近待看剧目倒计时</p>
+            <h2 id="show-next-title" class="text-lg sm:text-xl font-bold mt-0.5">暂无即将观看的剧目</h2>
+            <p id="show-next-meta" class="text-xs sm:text-sm text-teal-100 mt-1">添加待看剧目后将自动计算观演倒计时</p>
+          </div>
+          <div id="show-next-countdown" class="px-4 py-2.5 rounded-xl bg-white/15 backdrop-blur-xs border border-white/20 text-center shrink-0">
+            <span class="text-xl sm:text-2xl font-bold tracking-tight">--</span>
+          </div>
+        </div>
+      </section>
+
       <!-- Add Show Form -->
       <section class="glass-card border border-teal-100 rounded-2xl shadow-sm p-4 sm:p-5">
         <form id="show-form" class="space-y-3">
           <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
             <input id="show-title" type="text" required maxlength="80" placeholder="剧目名称，例如：《剧院魅影》"
-              class="sm:col-span-4 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
-            <input id="show-time" type="text" required maxlength="40" placeholder="时间，如 2026-11-28 19:30"
               class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            <input id="show-time" type="datetime-local" required
+              class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500" />
             <input id="show-venue" type="text" required maxlength="50" placeholder="地点，如 上海文化广场"
               class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
             <input id="show-seat" type="text" required maxlength="40" placeholder="座位，如 1楼8排12座"
-              class="sm:col-span-2 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+              class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
           </div>
           <div class="flex justify-end">
             <button type="submit"
@@ -405,6 +421,49 @@
         </div>
         <ul id="shows-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></ul>
         <div id="shows-empty" class="hidden py-8 text-center text-sm text-slate-400">暂无符合条件的剧目记录</div>
+      </section>
+
+      <!-- Ticket Sale / Opening Section -->
+      <section class="glass-card border border-teal-200 rounded-2xl shadow-sm p-4 sm:p-6 bg-gradient-to-br from-teal-50/60 via-white to-cyan-50/40">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">剧目开票提醒</h2>
+            <span id="tickets-summary-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-50 text-cyan-800 border border-cyan-200">0 场待抢</span>
+          </div>
+        </div>
+
+        <form id="ticket-form" class="space-y-3 mb-5 pb-4 border-b border-teal-100">
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+            <input id="ticket-title" type="text" required maxlength="80" placeholder="开票剧目名称，例如：《罗密欧与朱丽叶》"
+              class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            <input id="ticket-time" type="datetime-local" required title="开票时间"
+              class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            <input id="ticket-session" type="text" required maxlength="50" placeholder="想看的场次，如 12-20 19:30 晚场"
+              class="sm:col-span-3 px-3.5 py-2.5 rounded-xl border border-teal-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            <select id="ticket-platform" class="sm:col-span-3 px-3 py-2.5 rounded-xl border border-teal-200 bg-white text-sm text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+              <option value="大麦">大麦</option>
+              <option value="猫眼">猫眼</option>
+              <option value="票星球">票星球</option>
+              <option value="保利票务">保利票务</option>
+              <option value="聚橙">聚橙</option>
+              <option value="官方小程序">官方小程序</option>
+              <option value="其他平台">其他平台</option>
+            </select>
+          </div>
+          <div class="flex justify-end">
+            <button type="submit"
+              class="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium shadow-sm transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              添加开票提醒
+            </button>
+          </div>
+        </form>
+
+        <ul id="tickets-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></ul>
+        <div id="tickets-empty" class="hidden py-6 text-center text-sm text-slate-400">暂无开票提醒，请在上方填写剧目、开票时间、场次与平台</div>
       </section>
     </main>
 
@@ -548,6 +607,7 @@
       const STORAGE_KEY = 'qinghe_todo_tasks_v1';
       const BJD_STORAGE_KEY = 'qinghe_bjd_parts_v1';
       const SHOWS_STORAGE_KEY = 'qinghe_shows_list_v1';
+      const TICKETS_STORAGE_KEY = 'qinghe_tickets_list_v1';
       const EXAMS_STORAGE_KEY = 'qinghe_exams_list_v1';
 
       const DAYS = [
@@ -587,17 +647,6 @@
         { id: 't7', title: '周中进度核对与资料归档', target: 'wed', priority: 'medium', category: '工作', time: '16:00', completed: false },
       ];
 
-      const DEFAULT_BJD = [
-        { id: 'b1', name: '4分白肌女体素体', type: '素体', price: 1280, note: '官店预订尾款', bought: false },
-        { id: 'b2', name: '14mm 浅青绿色玻璃眼珠', type: '眼珠', price: 168, note: '手工眼珠工作室', bought: false },
-        { id: 'b3', name: '银灰色长卷发高温丝假发', type: '假发', price: 135, note: '已入库备选', bought: true }
-      ];
-
-      const DEFAULT_SHOWS = [
-        { id: 's1', title: '《剧院魅影》音乐剧', time: '2026-11-28 19:30', venue: '上海文化广场 主剧场', seat: '1楼 8排 12座', watched: false },
-        { id: 's2', title: '《天鹅湖》古典芭蕾舞剧', time: '2026-12-06 14:00', venue: '国家大剧院 歌剧院', seat: '二层 2排 6座', watched: false }
-      ];
-
       function futureLocalIso(daysAhead, hourStr) {
         const d = new Date(Date.now() + daysAhead * 86400000);
         const y = d.getFullYear();
@@ -605,6 +654,22 @@
         const day = String(d.getDate()).padStart(2, '0');
         return `${y}-${m}-${day}T${hourStr}`;
       }
+
+      const DEFAULT_BJD = [
+        { id: 'b1', name: '4分白肌女体素体', type: '素体', price: 1280, actualPrice: null, openTime: '11-20 20:00 开仓', note: '官店预订尾款', bought: false },
+        { id: 'b2', name: '14mm 浅青绿色玻璃眼珠', type: '眼珠', price: 168, actualPrice: null, openTime: '11-22 19:00 约眼', note: '手工眼珠工作室', bought: false },
+        { id: 'b3', name: '银灰色长卷发高温丝假发', type: '假发', price: 135, actualPrice: 128, openTime: '11-10 已抢到', note: '已入库备选', bought: true }
+      ];
+
+      const DEFAULT_SHOWS = [
+        { id: 's1', title: '《剧院魅影》音乐剧', time: futureLocalIso(14, '19:30'), venue: '上海文化广场 主剧场', seat: '1楼 8排 12座', watched: false },
+        { id: 's2', title: '《天鹅湖》古典芭蕾舞剧', time: futureLocalIso(22, '14:00'), venue: '国家大剧院 歌剧院', seat: '二层 2排 6座', watched: false }
+      ];
+
+      const DEFAULT_TICKETS = [
+        { id: 'tk1', title: '《罗密欧与朱丽叶》法语音乐剧', time: futureLocalIso(5, '11:00'), session: '12-20 19:30 周六晚场', platform: '大麦', grabbed: false },
+        { id: 'tk2', title: '《莫扎特》音乐剧', time: futureLocalIso(9, '12:00'), session: '01-03 14:00 下午场', platform: '票星球', grabbed: false }
+      ];
 
       const DEFAULT_EXAMS = [
         { id: 'e1', subject: '专业核心课期末考', datetime: futureLocalIso(12, '09:00'), location: '第一教学楼 302 室' },
@@ -622,6 +687,7 @@
         tasks: loadJson(STORAGE_KEY, DEFAULT_TASKS),
         bjdParts: loadJson(BJD_STORAGE_KEY, DEFAULT_BJD),
         shows: loadJson(SHOWS_STORAGE_KEY, DEFAULT_SHOWS),
+        tickets: loadJson(TICKETS_STORAGE_KEY, DEFAULT_TICKETS),
         exams: loadJson(EXAMS_STORAGE_KEY, DEFAULT_EXAMS)
       };
 
@@ -654,6 +720,12 @@
         } catch (e) {}
       }
 
+      function saveTickets() {
+        try {
+          localStorage.setItem(TICKETS_STORAGE_KEY, JSON.stringify(state.tickets));
+        } catch (e) {}
+      }
+
       function saveExams() {
         try {
           localStorage.setItem(EXAMS_STORAGE_KEY, JSON.stringify(state.exams));
@@ -661,7 +733,8 @@
       }
 
       function getCountdownInfo(datetimeStr) {
-        const targetMs = new Date(datetimeStr).getTime();
+        const normalized = String(datetimeStr || '').trim().replace(' ', 'T');
+        const targetMs = new Date(normalized).getTime();
         if (isNaN(targetMs)) {
           return { passed: false, text: '时间格式无效', short: '--', diffMs: Infinity };
         }
@@ -925,14 +998,19 @@
       }
 
       function renderBjdView() {
-        const total = state.bjdParts.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
         const boughtList = state.bjdParts.filter(item => item.bought);
         const pendingList = state.bjdParts.filter(item => !item.bought);
-        const boughtSum = boughtList.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
         const pendingSum = pendingList.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+        const boughtSum = boughtList.reduce((sum, item) => {
+          const spent = item.actualPrice !== null && item.actualPrice !== undefined && item.actualPrice !== ''
+            ? Number(item.actualPrice)
+            : Number(item.price);
+          return sum + (isNaN(spent) ? 0 : spent);
+        }, 0);
+        const total = pendingSum + boughtSum;
 
         document.getElementById('bjd-total-price').textContent = formatPrice(total);
-        document.getElementById('bjd-total-count').textContent = `共 ${state.bjdParts.length} 件部件`;
+        document.getElementById('bjd-total-count').textContent = `共 ${state.bjdParts.length} 件部件（含已入实际花费）`;
         document.getElementById('bjd-pending-price').textContent = formatPrice(pendingSum);
         document.getElementById('bjd-pending-count').textContent = `${pendingList.length} 件待购`;
         document.getElementById('bjd-bought-price').textContent = formatPrice(boughtSum);
@@ -955,13 +1033,16 @@
         emptyEl.classList.add('hidden');
 
         filtered.forEach(item => {
+          const actualVal = item.actualPrice !== null && item.actualPrice !== undefined && item.actualPrice !== ''
+            ? item.actualPrice
+            : item.price;
           const li = document.createElement('li');
-          li.className = `group flex items-center justify-between gap-3 rounded-xl border p-3 sm:p-3.5 transition-all fade-in ${
-            item.bought ? 'bg-teal-50/40 border-teal-100/80 opacity-80' : 'bg-white border-teal-100 hover:border-teal-300'
+          li.className = `group flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border p-3 sm:p-3.5 transition-all fade-in ${
+            item.bought ? 'bg-teal-50/40 border-teal-100/80' : 'bg-white border-teal-100 hover:border-teal-300'
           }`;
           li.innerHTML = `
-            <div class="flex items-center gap-3 min-w-0 flex-1">
-              <label class="relative flex items-center justify-center cursor-pointer shrink-0">
+            <div class="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+              <label class="relative flex items-center justify-center mt-0.5 sm:mt-0 cursor-pointer shrink-0">
                 <input type="checkbox" class="task-checkbox sr-only" data-action="toggle-bjd" data-id="${escapeHtml(item.id)}" ${item.bought ? 'checked' : ''} />
                 <span class="task-check-visual w-5 h-5 rounded-md border-2 border-teal-400 bg-white flex items-center justify-center transition-colors">
                   <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
@@ -973,12 +1054,21 @@
                 <div class="flex flex-wrap items-center gap-2">
                   <span class="text-sm font-medium break-words ${item.bought ? 'line-through text-slate-400' : 'text-slate-800'}">${escapeHtml(item.name)}</span>
                   <span class="px-2 py-0.5 rounded-md text-[11px] font-medium bg-teal-50 text-teal-800 border border-teal-200">${escapeHtml(item.type)}</span>
+                  ${item.openTime ? `<span class="px-2 py-0.5 rounded-md text-[11px] font-medium bg-cyan-50 text-cyan-800 border border-cyan-200">⏰ ${escapeHtml(item.openTime)}</span>` : ''}
                   ${item.note ? `<span class="text-xs text-slate-500">${escapeHtml(item.note)}</span>` : ''}
                 </div>
               </div>
             </div>
-            <div class="flex items-center gap-2.5 shrink-0">
-              <span class="text-sm sm:text-base font-bold ${item.bought ? 'text-slate-400' : 'text-teal-700'}">${formatPrice(item.price)}</span>
+            <div class="flex flex-wrap items-center justify-end gap-2.5 shrink-0 pl-8 sm:pl-0">
+              ${item.bought ? `
+                <label class="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-2 py-1">
+                  <span>实付 ¥</span>
+                  <input type="number" min="0" step="0.01" data-action="edit-bjd-actual" data-id="${escapeHtml(item.id)}" value="${escapeHtml(actualVal)}"
+                    class="w-20 bg-white border border-emerald-200 rounded px-1.5 py-0.5 text-xs font-bold text-emerald-800 focus:outline-none focus:ring-1 focus:ring-emerald-500" />
+                </label>
+              ` : `
+                <span class="text-sm sm:text-base font-bold text-teal-700">${formatPrice(item.price)}</span>
+              `}
               <button type="button" data-action="delete-bjd" data-id="${escapeHtml(item.id)}" title="删除"
                 class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -992,10 +1082,28 @@
       }
 
       function renderShowsView() {
-        const upcomingCount = state.shows.filter(s => !s.watched).length;
-        document.getElementById('shows-summary-badge').textContent = `${upcomingCount} 场待看 · 共 ${state.shows.length} 场`;
+        const sortedShows = [...state.shows].sort((a, b) => new Date(String(a.time).replace(' ', 'T')).getTime() - new Date(String(b.time).replace(' ', 'T')).getTime());
+        const upcomingShows = sortedShows.filter(s => !s.watched && !getCountdownInfo(s.time).passed);
 
-        const filtered = state.shows.filter(item => {
+        document.getElementById('shows-summary-badge').textContent = `${sortedShows.filter(s => !s.watched).length} 场待看 · 共 ${sortedShows.length} 场`;
+
+        const nextTitle = document.getElementById('show-next-title');
+        const nextMeta = document.getElementById('show-next-meta');
+        const nextCd = document.getElementById('show-next-countdown');
+
+        if (upcomingShows.length > 0) {
+          const first = upcomingShows[0];
+          const cd = getCountdownInfo(first.time);
+          nextTitle.textContent = first.title;
+          nextMeta.textContent = `🕒 ${formatExamDatetime(first.time)} · 📍 ${first.venue} · 💺 ${first.seat}`;
+          nextCd.innerHTML = `<div class="text-xl sm:text-2xl font-bold tracking-tight">${escapeHtml(cd.short)}</div><div class="text-[11px] text-teal-100 mt-0.5">${escapeHtml(cd.text)}</div>`;
+        } else {
+          nextTitle.textContent = '暂无即将观看的剧目';
+          nextMeta.textContent = '添加待看剧目后将自动计算观演倒计时';
+          nextCd.innerHTML = '<span class="text-xl sm:text-2xl font-bold tracking-tight">--</span>';
+        }
+
+        const filtered = sortedShows.filter(item => {
           if (state.showFilter === 'upcoming') return !item.watched;
           if (state.showFilter === 'watched') return item.watched;
           return true;
@@ -1007,48 +1115,106 @@
 
         if (filtered.length === 0) {
           emptyEl.classList.remove('hidden');
-          return;
-        }
-        emptyEl.classList.add('hidden');
-
-        filtered.forEach(item => {
-          const li = document.createElement('li');
-          li.className = `rounded-2xl border p-4 transition-all fade-in flex flex-col justify-between gap-3 ${
-            item.watched ? 'bg-teal-50/40 border-teal-100/80 opacity-80' : 'bg-white border-teal-100 hover:border-teal-300 shadow-2xs'
-          }`;
-          li.innerHTML = `
-            <div class="flex items-start justify-between gap-2">
-              <div class="flex items-start gap-2.5 min-w-0">
-                <label class="relative flex items-center justify-center mt-0.5 cursor-pointer shrink-0">
-                  <input type="checkbox" class="task-checkbox sr-only" data-action="toggle-show" data-id="${escapeHtml(item.id)}" ${item.watched ? 'checked' : ''} />
-                  <span class="task-check-visual w-5 h-5 rounded-md border-2 border-teal-400 bg-white flex items-center justify-center transition-colors">
-                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        } else {
+          emptyEl.classList.add('hidden');
+          filtered.forEach(item => {
+            const cd = getCountdownInfo(item.time);
+            const li = document.createElement('li');
+            li.className = `rounded-2xl border p-4 transition-all fade-in flex flex-col justify-between gap-3 ${
+              item.watched ? 'bg-teal-50/40 border-teal-100/80 opacity-80' : 'bg-white border-teal-100 hover:border-teal-300 shadow-2xs'
+            }`;
+            li.innerHTML = `
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex items-start gap-2.5 min-w-0">
+                  <label class="relative flex items-center justify-center mt-0.5 cursor-pointer shrink-0">
+                    <input type="checkbox" class="task-checkbox sr-only" data-action="toggle-show" data-id="${escapeHtml(item.id)}" ${item.watched ? 'checked' : ''} />
+                    <span class="task-check-visual w-5 h-5 rounded-md border-2 border-teal-400 bg-white flex items-center justify-center transition-colors">
+                      <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </span>
+                  </label>
+                  <h3 class="text-sm sm:text-base font-bold break-words ${item.watched ? 'line-through text-slate-400' : 'text-slate-900'}">${escapeHtml(item.title)}</h3>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                    item.watched ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-teal-50 text-teal-700 border border-teal-200'
+                  }">${item.watched ? '已看' : escapeHtml(cd.short)}</span>
+                  <button type="button" data-action="delete-show" data-id="${escapeHtml(item.id)}" title="删除"
+                    class="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                  </span>
-                </label>
-                <h3 class="text-sm sm:text-base font-bold break-words ${item.watched ? 'line-through text-slate-400' : 'text-slate-900'}">${escapeHtml(item.title)}</h3>
+                  </button>
+                </div>
               </div>
-              <div class="flex items-center gap-1.5 shrink-0">
-                <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold ${
-                  item.watched ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-teal-50 text-teal-700 border border-teal-200'
-                }">${item.watched ? '已看' : '待看'}</span>
-                <button type="button" data-action="delete-show" data-id="${escapeHtml(item.id)}" title="删除"
-                  class="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+              <div class="grid grid-cols-1 gap-1.5 text-xs sm:text-sm text-slate-600 bg-teal-50/50 rounded-xl p-3 border border-teal-100/70">
+                <div class="flex items-center gap-2"><span class="text-teal-700 font-medium shrink-0">🕒 时间:</span><span class="truncate">${escapeHtml(formatExamDatetime(item.time))}</span></div>
+                <div class="flex items-center gap-2"><span class="text-teal-700 font-medium shrink-0">📍 地点:</span><span class="truncate">${escapeHtml(item.venue)}</span></div>
+                <div class="flex items-center gap-2"><span class="text-teal-700 font-medium shrink-0">💺 座位:</span><span class="font-medium text-teal-900 truncate">${escapeHtml(item.seat)}</span></div>
+                ${!item.watched ? `<div class="flex items-center gap-2"><span class="text-teal-700 font-medium shrink-0">⏳ 倒计时:</span><span class="font-semibold text-teal-800">${escapeHtml(cd.text)}</span></div>` : ''}
               </div>
-            </div>
-            <div class="grid grid-cols-1 gap-1.5 text-xs sm:text-sm text-slate-600 bg-teal-50/50 rounded-xl p-3 border border-teal-100/70">
-              <div class="flex items-center gap-2"><span class="text-teal-700 font-medium shrink-0">🕒 时间:</span><span class="truncate">${escapeHtml(item.time)}</span></div>
-              <div class="flex items-center gap-2"><span class="text-teal-700 font-medium shrink-0">📍 地点:</span><span class="truncate">${escapeHtml(item.venue)}</span></div>
-              <div class="flex items-center gap-2"><span class="text-teal-700 font-medium shrink-0">💺 座位:</span><span class="font-medium text-teal-900 truncate">${escapeHtml(item.seat)}</span></div>
-            </div>
-          `;
-          listEl.appendChild(li);
-        });
+            `;
+            listEl.appendChild(li);
+          });
+        }
+
+        // Render Ticket Sales Section
+        const sortedTickets = [...state.tickets].sort((a, b) => new Date(String(a.time).replace(' ', 'T')).getTime() - new Date(String(b.time).replace(' ', 'T')).getTime());
+        const pendingTickets = sortedTickets.filter(t => !t.grabbed);
+        document.getElementById('tickets-summary-badge').textContent = `${pendingTickets.length} 场待抢 · 共 ${sortedTickets.length} 场`;
+
+        const tkList = document.getElementById('tickets-list');
+        const tkEmpty = document.getElementById('tickets-empty');
+        tkList.innerHTML = '';
+
+        if (sortedTickets.length === 0) {
+          tkEmpty.classList.remove('hidden');
+        } else {
+          tkEmpty.classList.add('hidden');
+          sortedTickets.forEach(tk => {
+            const cd = getCountdownInfo(tk.time);
+            const li = document.createElement('li');
+            li.className = `rounded-2xl border p-4 transition-all fade-in flex flex-col justify-between gap-2.5 ${
+              tk.grabbed ? 'bg-teal-50/40 border-teal-100/80 opacity-75' : 'bg-white border-cyan-100 hover:border-cyan-300 shadow-2xs'
+            }`;
+            li.innerHTML = `
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex items-start gap-2.5 min-w-0">
+                  <label class="relative flex items-center justify-center mt-0.5 cursor-pointer shrink-0">
+                    <input type="checkbox" class="task-checkbox sr-only" data-action="toggle-ticket" data-id="${escapeHtml(tk.id)}" ${tk.grabbed ? 'checked' : ''} />
+                    <span class="task-check-visual w-5 h-5 rounded-md border-2 border-cyan-500 bg-white flex items-center justify-center transition-colors">
+                      <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </span>
+                  </label>
+                  <div class="min-w-0">
+                    <h3 class="text-sm font-bold break-words ${tk.grabbed ? 'line-through text-slate-400' : 'text-slate-900'}">${escapeHtml(tk.title)}</h3>
+                    <span class="inline-block mt-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-cyan-50 text-cyan-800 border border-cyan-200">🎫 ${escapeHtml(tk.platform)}</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                    tk.grabbed ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-cyan-50 text-cyan-700 border border-cyan-200'
+                  }">${tk.grabbed ? '已搞定' : escapeHtml(cd.short)}</span>
+                  <button type="button" data-action="delete-ticket" data-id="${escapeHtml(tk.id)}" title="删除"
+                    class="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 gap-1 text-xs text-slate-600 bg-cyan-50/40 rounded-xl p-2.5 border border-cyan-100/70">
+                <div class="flex items-center gap-2"><span class="text-cyan-800 font-medium shrink-0">⏰ 开票时间:</span><span class="truncate">${escapeHtml(formatExamDatetime(tk.time))}</span></div>
+                <div class="flex items-center gap-2"><span class="text-cyan-800 font-medium shrink-0">🎭 想看场次:</span><span class="truncate">${escapeHtml(tk.session)}</span></div>
+                ${!tk.grabbed ? `<div class="flex items-center gap-2"><span class="text-cyan-800 font-medium shrink-0">⏳ 距开票:</span><span class="font-semibold text-cyan-900">${escapeHtml(cd.text)}</span></div>` : ''}
+              </div>
+            `;
+            tkList.appendChild(li);
+          });
+        }
       }
 
       function renderExamsView() {
@@ -1244,12 +1410,15 @@
           name,
           type: document.getElementById('bjd-type').value,
           price,
+          actualPrice: null,
+          openTime: document.getElementById('bjd-open-time').value.trim(),
           note: document.getElementById('bjd-note').value.trim(),
           bought: false
         });
         saveBjd();
         document.getElementById('bjd-name').value = '';
         document.getElementById('bjd-price').value = '';
+        document.getElementById('bjd-open-time').value = '';
         document.getElementById('bjd-note').value = '';
         renderBjdView();
         showToast('已添加 BJD 部件');
@@ -1290,6 +1459,29 @@
         document.getElementById('show-seat').value = '';
         renderShowsView();
         showToast('已添加待看剧目');
+      });
+
+      document.getElementById('ticket-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('ticket-title').value.trim();
+        const time = document.getElementById('ticket-time').value;
+        const session = document.getElementById('ticket-session').value.trim();
+        const platform = document.getElementById('ticket-platform').value;
+        if (!title || !time || !session) return;
+        state.tickets.unshift({
+          id: 'tk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+          title,
+          time,
+          session,
+          platform,
+          grabbed: false
+        });
+        saveTickets();
+        document.getElementById('ticket-title').value = '';
+        document.getElementById('ticket-time').value = '';
+        document.getElementById('ticket-session').value = '';
+        renderShowsView();
+        showToast('已添加开票提醒');
       });
 
       document.getElementById('show-filter-group').addEventListener('click', (e) => {
@@ -1374,8 +1566,32 @@
           const item = state.bjdParts.find(x => x.id === bjdCb.dataset.id);
           if (item) {
             item.bought = bjdCb.checked;
+            if (item.bought && (item.actualPrice === null || item.actualPrice === undefined || item.actualPrice === '')) {
+              item.actualPrice = item.price;
+            }
             saveBjd();
             renderBjdView();
+          }
+          return;
+        }
+        const bjdActualInput = e.target.closest('input[data-action="edit-bjd-actual"]');
+        if (bjdActualInput) {
+          const item = state.bjdParts.find(x => x.id === bjdActualInput.dataset.id);
+          if (item) {
+            const val = parseFloat(bjdActualInput.value);
+            item.actualPrice = isNaN(val) || val < 0 ? 0 : val;
+            saveBjd();
+            renderBjdView();
+          }
+          return;
+        }
+        const ticketCb = e.target.closest('input[data-action="toggle-ticket"]');
+        if (ticketCb) {
+          const tk = state.tickets.find(x => x.id === ticketCb.dataset.id);
+          if (tk) {
+            tk.grabbed = ticketCb.checked;
+            saveTickets();
+            renderShowsView();
           }
           return;
         }
@@ -1404,6 +1620,14 @@
         const editBtn = e.target.closest('button[data-action="edit"]');
         if (editBtn) {
           openEditModal(editBtn.dataset.id);
+          return;
+        }
+        const delTicketBtn = e.target.closest('button[data-action="delete-ticket"]');
+        if (delTicketBtn) {
+          state.tickets = state.tickets.filter(x => x.id !== delTicketBtn.dataset.id);
+          saveTickets();
+          renderShowsView();
+          showToast('已移除该开票提醒');
           return;
         }
         const delBjdBtn = e.target.closest('button[data-action="delete-bjd"]');
@@ -1488,6 +1712,7 @@
       clearInterval(examTimer);
       examTimer = setInterval(() => {
         if (state.view === 'exams') renderExamsView();
+        else if (state.view === 'shows') renderShowsView();
       }, 30000);
 
       // Initial render
